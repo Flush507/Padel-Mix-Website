@@ -17,31 +17,56 @@ const mixes: Mix[] = [
 export default function MixTable() {
   const router = useRouter();
 
+  const sortedMixes = [...mixes].sort((a, b) => {
+    const parse = (d: string) => {
+      const [day, month, year] = d.split("-");
+      return new Date(`${year}-${month}-${day}`).getTime();
+    };
+    return parse(b.date) - parse(a.date);
+  });
+
   return (
-    <div className="bg-white shadow-md rounded-xl p-6">
-      <h2 className="text-xl font-semibold mb-4">🎾 Mix</h2>
+    <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: 16, overflow: "hidden", marginBottom: 32 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 20px", borderBottom: "1px solid var(--border-subtle)" }}>
+        <div style={{ width: 3, height: 18, borderRadius: 4, background: "var(--accent-blue)", flexShrink: 0 }} />
+        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>🎾 Mix</span>
+      </div>
 
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="text-left border-b">
-            <th className="py-2">Nome</th>
-            <th className="py-2">Data</th>
-          </tr>
-        </thead>
+      {/* Column headers */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 120px", padding: "8px 20px", borderBottom: "1px solid var(--border-subtle)", gap: 12 }}>
+        {["Nome", "Data"].map((h, i) => (
+          <span key={i} style={{ fontSize: 10, fontWeight: 600, color: "var(--text-muted)", letterSpacing: "0.1em", textTransform: "uppercase" as const }}>
+            {h}
+          </span>
+        ))}
+      </div>
 
-        <tbody>
-          {mixes.map((mix) => (
-            <tr
-              key={mix.id}
-              onClick={() => router.push(`/mix/${mix.id}`)}
-              className="border-b last:border-none hover:bg-gray-50 cursor-pointer"
-            >
-              <td className="py-3 font-medium">{mix.name}</td>
-              <td className="py-3 text-gray-600">{mix.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Rows */}
+      {sortedMixes.map((mix, i) => (
+        <div
+          key={mix.id}
+          onClick={() => router.push(`/mix/${mix.id}`)}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 120px",
+            padding: "10px 20px",
+            borderBottom: i < sortedMixes.length - 1 ? "1px solid var(--border-subtle)" : "none",
+            alignItems: "center",
+            gap: 12,
+            cursor: "pointer",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-hover, rgba(255,255,255,0.03))")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+        >
+          <span style={{ fontSize: 13, color: "var(--text-primary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {mix.name}
+          </span>
+          <span style={{ fontSize: 12, color: "var(--text-muted)" }}>
+            {mix.date}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
