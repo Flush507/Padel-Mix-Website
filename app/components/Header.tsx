@@ -7,9 +7,9 @@ export default function Header() {
   const pathname = usePathname();
 
   const linkClass = (path: string) =>
-    `cursor-pointer hover:opacity-80 ${
-      pathname === path ? "text-black" : ""
-    }`;
+  `cursor-pointer hover:opacity-80 ${
+    pathname === path ? "text-[#7eb8f7]" : "text-[#8ca8c0]"
+  }`;
 
   return (
     <header className="w-full p-4 flex justify-center items-center bg-[var(--primary)] text-white">
