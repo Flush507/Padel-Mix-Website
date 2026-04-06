@@ -13,14 +13,41 @@ export type Mix = {
   id: number;
   name: string;
   date: string;
+  playerImages?: Record<string, string>;
   campos: Campo[];
 };
+
+function avatarUrl(name: string) {
+  return `/players/${name
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")}.png`;
+}
+
+const ALL_PLAYERS = [
+  "Diogo Silva",
+  "Pedro Machado",
+  "Tomás Vultos",
+  "Tiago Pimpão",
+  "André Oliveira",
+  "Diogo Gomes",
+  "ADN",
+  "David Figuinha",
+  "Duarte Caseiro",
+  "Simão Ferreira",
+];
+
+const playerImages: Record<string, string> = Object.fromEntries(
+  ALL_PLAYERS.map((name) => [name, avatarUrl(name)])
+);
 
 export const mixes: Mix[] = [
   {
     id: 1,
     name: "VFX1",
     date: "03-03-2026",
+    playerImages,
     campos: [
       {
         titulo: "Campo 1",
@@ -52,6 +79,7 @@ export const mixes: Mix[] = [
     id: 2,
     name: "VFX2",
     date: "10-03-2026",
+    playerImages,
     campos: [{
         titulo: "Campo 1",
         jogos: [
@@ -84,6 +112,7 @@ export const mixes: Mix[] = [
     id: 3,
     name: "VFX3",
     date: "23-03-2026",
+    playerImages,
     campos: [
       {
         titulo: "Campo 1",

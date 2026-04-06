@@ -1,4 +1,4 @@
-import { mixes, type Jogo } from "./mixes";
+import { mixes, type Jogo, type Campo } from "./mixes";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -39,35 +39,35 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+type PlayerImages = Record<string, string>;
+
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function PlayerAvatar({
   name,
+  image,
   colorMap,
 }: {
   name: string;
+  image?: string;            // optional URL or base64
   colorMap: Record<string, { bg: string; text: string }>;
 }) {
   const { bg, text } = colorMap[name] ?? { bg: "#1a3a5c", text: "#7eb8f7" };
   return (
-    <div
-      style={{
-        width: 34,
-        height: 34,
-        borderRadius: "50%",
-        background: bg,
-        color: text,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 11,
-        fontWeight: 700,
-        letterSpacing: "0.04em",
-        flexShrink: 0,
-        border: `1.5px solid ${text}33`,
-      }}
-    >
-      {getInitials(name)}
+    <div style={{
+      width: 34, height: 34, borderRadius: "50%",
+      background: image ? "transparent" : bg,
+      color: text,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontSize: 11, fontWeight: 700, letterSpacing: "0.04em",
+      flexShrink: 0, overflow: "hidden",
+      border: `1.5px solid ${text}33`,
+    }}>
+      {image
+        ? <img src={image} alt={name}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        : getInitials(name)
+      }
     </div>
   );
 }
@@ -77,11 +77,13 @@ function TeamColumn({
   won,
   align,
   colorMap,
+  playerImages,
 }: {
   players: string[];
   won: boolean;
   align: "left" | "right";
   colorMap: Record<string, { bg: string; text: string }>;
+  playerImages?: PlayerImages;
 }) {
   const isRight = align === "right";
   return (
@@ -104,7 +106,7 @@ function TeamColumn({
             flexDirection: isRight ? "row-reverse" : "row",
           }}
         >
-          <PlayerAvatar name={player} colorMap={colorMap} />
+          <PlayerAvatar name={player} image={playerImages?.[player]} colorMap={colorMap} />
           <span
             style={{
               fontSize: 12,
@@ -126,10 +128,14 @@ function PadelCourtCard({
   jogo,
   index,
   colorMap,
+  isFinal,
+  playerImages,
 }: {
   jogo: Jogo;
   index: number;
   colorMap: Record<string, { bg: string; text: string }>;
+  isFinal?: boolean;
+  playerImages?: PlayerImages;
 }) {
   const e1Won = jogo.score[0] > jogo.score[1];
   const e2Won = jogo.score[1] > jogo.score[0];
@@ -184,7 +190,7 @@ function PadelCourtCard({
           whiteSpace: "nowrap",
         }}
       >
-        JOGO {index + 1}
+        {isFinal ? "FINAL" : `JOGO ${index + 1}`}
       </div>
 
       {/* Content */}
@@ -198,7 +204,7 @@ function PadelCourtCard({
           gap: 0,
         }}
       >
-        <TeamColumn players={jogo.equipa1} won={e1Won} align="left" colorMap={colorMap} />
+        <TeamColumn players={jogo.equipa1} won={e1Won} align="left" colorMap={colorMap} playerImages={playerImages} />
 
         {/* Score */}
         <div
@@ -251,7 +257,7 @@ function PadelCourtCard({
           </span>
         </div>
 
-        <TeamColumn players={jogo.equipa2} won={e2Won} align="right" colorMap={colorMap} />
+        <TeamColumn players={jogo.equipa2} won={e2Won} align="right" colorMap={colorMap} playerImages={playerImages} />
       </div>
 
       {/* Bottom accent line */}
@@ -271,11 +277,13 @@ function CampoSection({
   jogos,
   accentColor,
   colorMap,
+  playerImages,
 }: {
   titulo: string;
   jogos: Jogo[];
   accentColor: string;
   colorMap: Record<string, { bg: string; text: string }>;
+  playerImages?: PlayerImages;
 }) {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
@@ -303,7 +311,7 @@ function CampoSection({
       {/* Cards */}
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {jogos.map((jogo, i) => (
-          <PadelCourtCard key={i} jogo={jogo} index={i} colorMap={colorMap} />
+          <PadelCourtCard key={i} jogo={jogo} index={i} colorMap={colorMap} playerImages={playerImages} />
         ))}
       </div>
     </div>
@@ -319,22 +327,44 @@ type PlayerStats = {
   vitorias: number;
 };
 
-function buildPointsTable(campos: { jogos: Jogo[] }[]): PlayerStats[] {
+function buildPointsTable(campos: Campo[]): PlayerStats[] {
   const map: Record<string, PlayerStats> = {};
   const ensure = (name: string) => {
     if (!map[name]) map[name] = { name, pontos: 0, jogos: 0, vitorias: 0 };
   };
-  for (const campo of campos) {
-    for (const jogo of campo.jogos) {
+
+  campos.forEach((campo, campoIndex) => {
+    const isCampo1 = campoIndex === 0;
+    const bonusWin = isCampo1 ? 8 : 4;
+    const bonusLose = isCampo1 ? 6 : 2;
+    const lastIndex = campo.jogos.length - 1;
+
+    campo.jogos.forEach((jogo, jogoIndex) => {
       const [s1, s2] = jogo.score;
-      for (const p of jogo.equipa1) { ensure(p); map[p].pontos += s1; map[p].jogos += 1; if (s1 > s2) map[p].vitorias += 1; }
-      for (const p of jogo.equipa2) { ensure(p); map[p].pontos += s2; map[p].jogos += 1; if (s2 > s1) map[p].vitorias += 1; }
-    }
-  }
+      const isFinal = jogoIndex === lastIndex;
+      const e1Won = s1 > s2;
+
+      for (const p of jogo.equipa1) {
+        ensure(p);
+        map[p].pontos += s1;
+        map[p].jogos += 1;
+        if (e1Won) map[p].vitorias += 1;
+        if (isFinal) map[p].pontos += e1Won ? bonusWin : bonusLose;
+      }
+      for (const p of jogo.equipa2) {
+        ensure(p);
+        map[p].pontos += s2;
+        map[p].jogos += 1;
+        if (!e1Won) map[p].vitorias += 1;
+        if (isFinal) map[p].pontos += e1Won ? bonusLose : bonusWin;
+      }
+    });
+  });
+
   return Object.values(map).sort((a, b) => b.pontos - a.pontos);
 }
 
-function PontosTable({ stats, colorMap }: { stats: PlayerStats[]; colorMap: Record<string, { bg: string; text: string }> }) {
+function PontosTable({ stats, colorMap, playerImages }: { stats: PlayerStats[]; colorMap: Record<string, { bg: string; text: string }>, playerImages?: PlayerImages }) {
   const max = stats[0]?.pontos ?? 1;
   const medals = ["🥇", "🥈", "🥉"];
 
@@ -360,8 +390,11 @@ function PontosTable({ stats, colorMap }: { stats: PlayerStats[]; colorMap: Reco
               {isTop3 ? medals[i] : <span style={{ color: "var(--text-muted)" }}>{i + 1}</span>}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-              <div style={{ width: 28, height: 28, borderRadius: "50%", background: bg, color: text, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, border: `1.5px solid ${text}33` }}>
-                {s.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()}
+              <div style={{ width: 28, height: 28, borderRadius: "50%", background: playerImages?.[s.name] ? "transparent" : bg, color: text, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, border: `1.5px solid ${text}33`, overflow: "hidden" }}>
+                {playerImages?.[s.name]
+                  ? <img src={playerImages[s.name]} alt={s.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  : s.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
+                }
               </div>
               <span style={{ fontSize: 13, fontWeight: isTop3 ? 600 : 400, color: isTop3 ? "var(--text-primary)" : "var(--text-secondary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {s.name}
@@ -395,6 +428,8 @@ export default async function MixDetailPage({
 
   const colorMap = buildColorMap(mix.campos);
   const pointsStats = buildPointsTable(mix.campos);
+
+  const playerImages: PlayerImages = mix.playerImages ?? {};
 
   return (
     <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 0 48px" }}>
@@ -447,7 +482,7 @@ export default async function MixDetailPage({
 
       {/* Pontos table */}
       {pointsStats.length > 0 && (
-        <PontosTable stats={pointsStats} colorMap={colorMap} />
+        <PontosTable stats={pointsStats} colorMap={colorMap} playerImages={playerImages} />
       )}
 
       {/* Campos */}
@@ -481,6 +516,7 @@ export default async function MixDetailPage({
               jogos={campo.jogos}
               accentColor={i === 0 ? "#3a7fd4" : "#2aad78"}
               colorMap={colorMap}
+              playerImages={playerImages}
             />
           ))}
         </div>
