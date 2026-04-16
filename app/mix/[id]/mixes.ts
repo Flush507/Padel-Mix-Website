@@ -142,4 +142,34 @@ export const mixes: Mix[] = [
       },
     ],
   },
+  {
+    id: 4,
+    name: "VFX4",
+    date: "14-04-2026",
+    playerImages,
+    campos: [
+      {
+        titulo: "Campo 1",
+        jogos: [
+          { equipa1: ["Gudji", "Duarte Caseiro"],    equipa2: ["André Oliveira", "Diogo Gomes"],   score: [3, 2] },
+          { equipa1: ["Gudji", "ADN"],               equipa2: ["Tomás Vultos", "Duarte Caseiro"],  score: [3, 2] },
+          { equipa1: ["Diogo Gomes", "ADN"],         equipa2: ["Gudji", "Pedro Machado"],          score: [4, 1] },
+          { equipa1: ["Diogo Gomes", "Duarte Caseiro"], equipa2: ["Tiago Pimpão", "ADN"],          score: [5, 0] },
+          { equipa1: ["Tomás Vultos", "Duarte Caseiro"], equipa2: ["Diogo Gomes", "Pedro Machado"], score: [4, 1] },
+          { equipa1: ["ADN", "Duarte Caseiro"],      equipa2: ["Tomás Vultos", "André Oliveira"],  score: [3, 2] },
+        ],
+      },
+      {
+        titulo: "Campo 2",
+        jogos: [
+          { equipa1: ["Tomás Vultos", "ADN"],        equipa2: ["Pedro Machado", "Tiago Pimpão"],   score: [3, 2] },
+          { equipa1: ["Diogo Gomes", "Pedro Machado"], equipa2: ["André Oliveira", "Tiago Pimpão"], score: [5, 0] },
+          { equipa1: ["Tiago Pimpão", "Duarte Caseiro"], equipa2: ["Tomás Vultos", "André Oliveira"], score: [5, 0] },
+          { equipa1: ["Tomás Vultos", "Pedro Machado"], equipa2: ["André Oliveira", "Gudji"],       score: [3, 2] },
+          { equipa1: ["ADN", "André Oliveira"],      equipa2: ["Gudji", "Tiago Pimpão"],           score: [3, 2] },
+          { equipa1: ["Tiago Pimpão", "Pedro Machado"], equipa2: ["Diogo Gomes", "Gudji"],          score: [3, 2] },
+        ],
+      },
+    ],
+  },
 ];

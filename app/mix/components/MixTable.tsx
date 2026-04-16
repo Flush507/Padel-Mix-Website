@@ -12,6 +12,7 @@ const mixes: Mix[] = [
   { id: 1, name: "VFX1", date: "03-03-2026" },
   { id: 2, name: "VFX2", date: "10-03-2026" },
   { id: 3, name: "VFX3", date: "23-03-2026" },
+  { id: 4, name: "VFX4", date: "14-04-2026" },
 ];
 
 export default function MixTable() {

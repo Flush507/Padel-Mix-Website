@@ -5,16 +5,16 @@ type Player = {
 };
 
 const players: Player[] = [
-    { name: "André Oliveira", elo: 27.0, mixes: 3 },
-    { name: "David Figuinha", elo: 28.0, mixes: 1 },
-    { name: "Pedro Machado", elo: 25.0, mixes: 1 },
-    { name: "Diogo Silva", elo: 26.7, mixes: 3 },
-    { name: "Diogo Gomes", elo: 28.3, mixes: 3 },
-    { name: "Tomás Vultos", elo: 19.7, mixes: 3 },
-    { name: "Tiago Pimpão", elo: 17.7, mixes: 3 },
-    { name: "ADN", elo: 20.0, mixes: 3 },
-    { name: "Duarte Caseiro", elo: 30.5, mixes: 2 },
-    { name: "Gudji", elo: 22.0, mixes: 1 },
+    { name: "André Oliveira", elo: 25.6, mixes: 3 },
+    { name: "David Figuinha", elo: 30.9, mixes: 1 },
+    { name: "Pedro Machado", elo: 26.0, mixes: 1 },
+    { name: "Diogo Silva", elo: 27.4, mixes: 3 },
+    { name: "Diogo Gomes", elo: 28.4, mixes: 3 },
+    { name: "Tomás Vultos", elo: 21.5, mixes: 3 },
+    { name: "Tiago Pimpão", elo: 19.8, mixes: 3 },
+    { name: "ADN", elo: 22.8, mixes: 3 },
+    { name: "Duarte Caseiro", elo: 32.8, mixes: 2 },
+    { name: "Gudji", elo: 20.7, mixes: 1 },
     { name: "Simão Ferreira", elo: 26.0, mixes: 1 }
 ];
 
