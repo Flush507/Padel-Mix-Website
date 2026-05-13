@@ -6,7 +6,7 @@ export type Player = {
 };
  
 export const players: Player[] = [
-  { id: "diogo-silva",       name: "Diogo Silva",       photo: "/players/diogosilva.png",       melhorParceiro: "Duarte Caseiro" },
+  { id: "diogo-silva",       name: "Diogo Silva",        photo: "/players/diogosilva.png",       melhorParceiro: "Duarte Caseiro" },
   { id: "tomas-vultos",      name: "Tomás Vultos",       photo: "/players/tomasvultos.png",      melhorParceiro: "Simão Ferreira" },
   { id: "diogo-gomes",       name: "Diogo Gomes",        photo: "/players/diogogomes.png",       melhorParceiro: "André Oliveira" },
   { id: "andre-oliveira",    name: "André Oliveira",     photo: "/players/andreoliveira.png",    melhorParceiro: "Diogo Gomes" },
@@ -15,7 +15,10 @@ export const players: Player[] = [
   { id: "pedro-machado",     name: "Pedro Machado",      photo: "/players/pedromachado.png",     melhorParceiro: "Diogo Silva" },
   { id: "duarte-caseiro",    name: "Duarte Caseiro",     photo: "/players/duartecaseiro.png",    melhorParceiro: "Diogo Silva" },
   { id: "simao-ferreira",    name: "Simão Ferreira",     photo: "/players/simaoferreira.png",    melhorParceiro: "Tomás Vultos" },
-  { id: "adn",               name: "ADN",                photo: "/players/adn.png",               melhorParceiro: "Diogo Gomes" },
+  { id: "adn",               name: "ADN",                photo: "/players/adn.png",              melhorParceiro: "Diogo Gomes" },
   { id: "gudji",             name: "Gudji",              photo: "/assets/nopic.png",             melhorParceiro: "André Oliveira" },
+  { id: "dinis-capitao",     name: "Dinis Capitão",      photo: "/players/diniscapitao.png",      melhorParceiro: "Duarte Caseiro" },
+  { id: "temoteo",           name: "Temoteo",            photo: "/assets/nopic.png",             melhorParceiro: "Diogo Silva" },
+  { id: "eira",              name: "Eira",               photo: "/assets/nopic.png",             melhorParceiro: "Duarte Caseiro" },
 ];
  

@@ -11,6 +11,7 @@ export type Campo = {
 
 export type Mix = {
   id: number;
+  season: number;
   name: string;
   date: string;
   playerImages?: Record<string, string>;
@@ -45,6 +46,7 @@ const playerImages: Record<string, string> = Object.fromEntries(
 export const mixes: Mix[] = [
   {
     id: 1,
+    season: 1,
     name: "VFX1",
     date: "03-03-2026",
     playerImages,
@@ -77,6 +79,7 @@ export const mixes: Mix[] = [
   },
   {
     id: 2,
+    season: 1,
     name: "VFX2",
     date: "10-03-2026",
     playerImages,
@@ -110,6 +113,7 @@ export const mixes: Mix[] = [
   },
   {
     id: 3,
+    season: 1,
     name: "VFX3",
     date: "23-03-2026",
     playerImages,
@@ -144,6 +148,7 @@ export const mixes: Mix[] = [
   },
   {
     id: 4,
+    season: 1,
     name: "VFX4",
     date: "14-04-2026",
     playerImages,
@@ -168,6 +173,41 @@ export const mixes: Mix[] = [
           { equipa1: ["Tomás Vultos", "Pedro Machado"], equipa2: ["André Oliveira", "Gudji"],       score: [3, 2] },
           { equipa1: ["ADN", "André Oliveira"],      equipa2: ["Gudji", "Tiago Pimpão"],           score: [3, 2] },
           { equipa1: ["Tiago Pimpão", "Pedro Machado"], equipa2: ["Diogo Gomes", "Gudji"],          score: [3, 2] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    season: 2,
+    name: "VFX5",
+    date: "05-05-2026",
+    playerImages,
+    campos: [
+      {
+        titulo: "Campo 1",
+        jogos: [
+          { equipa1: ["Diogo Silva", "Temoteo"], equipa2: ["Dinis Capitão", "Eira"], score: [4, 1] },
+          { equipa1: ["Diogo Silva", "Tomás Vultos"], equipa2: ["Pedro Machado", "Temoteo"], score: [3, 2] },
+          { equipa1: ["Diogo Silva", "Duarte Caseiro"], equipa2: ["Dinis Capitão", "Tomás Vultos"], score: [4, 1] },
+          { equipa1: ["Pedro Machado", "Duarte Caseiro"], equipa2: ["Diogo Silva", "Eira"], score: [4, 1] },
+          { equipa1: ["Duarte Caseiro", "Dinis Capitão"], equipa2: ["Pedro Machado", "Temoteo"], score: [4, 1] },
+          { equipa1: ["Duarte Caseiro", "Diogo Silva"], equipa2: ["Dinis Capitão", "Tomás Vultos"], score: [5, 0] },
+          { equipa1: ["Pedro Machado", "Duarte Caseiro"], equipa2: ["Diogo Silva", "Eira"], score: [4, 1] },
+          { equipa1: ["Duarte Caseiro", "Dinis Capitão"], equipa2: ["Pedro Machado", "Temoteo"], score: [4, 1] },
+        ],
+      },
+      {
+        titulo: "Campo 2",
+        jogos: [
+          { equipa1: ["Tomás Vultos", "Pedro Machado"], equipa2: ["Duarte Caseiro", "David Figuinha"], score: [3, 2] },
+          { equipa1: ["Duarte Caseiro", "Dinis Capitão"], equipa2: ["David Figuinha", "Eira"], score: [4, 1] },
+          { equipa1: ["Pedro Machado", "Eira"], equipa2: ["David Figuinha", "Temoteo"], score: [3, 2] },
+          { equipa1: ["Dinis Capitão", "Temoteo"], equipa2: ["David Figuinha", "Tomás Vultos"], score: [4, 1] },
+          { equipa1: ["Diogo Silva", "Tomás Vultos"], equipa2: ["David Figuinha", "Eira"], score: [4, 1] },
+          { equipa1: ["Pedro Machado", "Eira"], equipa2: ["David Figuinha", "Temoteo"], score: [3, 2] },
+          { equipa1: ["Dinis Capitão", "Temoteo"], equipa2: ["Tomás Vultos", "David Figuinha"], score: [5, 0] },
+          { equipa1: ["Tomás Vultos", "Diogo Silva"], equipa2: ["David Figuinha", "Eira"], score: [2, 3] },
         ],
       },
     ],
